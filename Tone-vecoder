@@ -1,0 +1,80 @@
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+%sig_=repmat(y_,1,10);
+sig_1=y_;
+t=0:length(sig_1)-1;
+
+d1=log10(200/165.4+1)/0.06;%[200,7000]第一个带通的中心频率
+d2=log10(7000/165.4+1)/0.06;
+dmid1=(3*d1+d2)/4;
+dmid2=(d1+d2)/2;
+dmid3=(d1+3*d2)/4;
+fmid1=165.4*(10.^(0.06*dmid1)-1);
+fmid2=165.4*(10.^(0.06*dmid2)-1);
+fmid3=165.4*(10.^(0.06*dmid3)-1);
+
+
+
+
+
+
+[b1, a1] = butter(4,[200 fmid1]/(fs_/2)); % band-pass filter
+[b2, a2] = butter(4,[fmid1 fmid2]/(fs_/2));
+[b3, a3] = butter(4,[fmid2 fmid3]/(fs_/2));
+[b4, a4] = butter(4,[fmid3 7000]/(fs_/2));
+
+sig1 = filter(b1,a1,sig_1);
+sig2 = filter(b2,a2,sig_1);
+sig3 = filter(b3,a3,sig_1);
+sig4 = filter(b4,a4,sig_1);
+
+
+
+X1=abs(sig1);
+X2=abs(sig2);
+X3=abs(sig3);
+X4=abs(sig4);
+
+
+[b_2,a_2] = butter(4,50/(fs_/2));%低通滤波器，都设为50dB
+
+sig_total2_1=filter(b_2,a_2,X1);%四个低通滤波操作
+sig_total2_2=filter(b_2,a_2,X2);
+sig_total2_3=filter(b_2,a_2,X3);
+sig_total2_4=filter(b_2,a_2,X4);
+
+
+%两个带宽的低通滤波，并进行调制
+
+
+
+
+
+fmid2_1=(200+fmid1)/2;
+fmid2_2=(fmid1+fmid2)/2;
+fmid2_3=(fmid2+fmid3)/2;
+fmid2_4=(fmid3+7000)/2;
+
+
+
+
+sig_carry2_1=sin(2*pi*fmid2_1*t);%四个调制信号的生成
+sig_carry2_2=sin(2*pi*fmid2_2*t);
+sig_carry2_3=sin(2*pi*fmid2_3*t);
+sig_carry2_4=sin(2*pi*fmid2_4*t);
+
+eve_1=sig_carry2_1.*sig_total2_1;
+eve_2=sig_carry2_2.*sig_total2_2;
+eve_3=sig_carry2_3.*sig_total2_3;
+eve_4=sig_carry2_4.*sig_total2_4;
+
+
+
+eve4=eve_1+eve_2+eve_3+eve_4;
+
+eve4=eve4*norm(eve4)/norm(sig_1);
+
+audiowrite("4_band.wav",eve4,fs_);
+%sound(eve4,fs_)%进行信号的听力测试
