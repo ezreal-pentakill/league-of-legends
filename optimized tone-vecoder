@@ -1,0 +1,67 @@
+%-------------------------------------------------N=1
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve1=tone_process(1,50,sig_1,fs_);
+%函数里有sig_1，fs_，N，lowfreq
+audiowrite("1_band.wav",eve1,fs_);
+%sound(eve1,fs_)%进行信号的听力测试
+
+%--------------------------------------------------N=2
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve2=tone_process(2,50,sig_1,fs_);
+audiowrite("2_band.wav",eve2,fs_);
+%sound(eve2,fs_)%进行信号的听力测试
+
+%---------------------------------------------------N=4
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve4=tone_process(4,50,sig_1,fs_);
+audiowrite("4_band.wav",eve4,fs_);
+% %sound(eve4,fs_)%进行信号的听力测试
+
+%---------------------------------------------------N=6
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve6=tone_process(6,50,sig_1,fs_);
+audiowrite("6_band.wav",eve6,fs_);
+%sound(eve6,fs_)%进行信号的听力测试
+
+
+%---------------------------------------------------N=8
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve8=tone_process(8,50,sig_1,fs_);
+audiowrite("8_band.wav",eve8,fs_);
+%sound(eve8,fs_)%进行信号的听力测试
+
+%---------------------------------------------------N=16
+clc,clear,close all
+[y_,fs_]=audioread("C_01_02(1).wav");
+sound(y_,fs_);
+y_=y_';
+sig_1=y_;
+%sig_1=noise_generate(sig_1,fs_);噪声产生
+eve16=tone_process(16,50,sig_1,fs_);
+audiowrite("16_band.wav",eve16,fs_);
+%sound(eve16,fs_)%进行信号的听力测试
